@@ -500,7 +500,7 @@ bool Address::Dump(Stream *s, ExecutionContextScope *exe_scope, DumpStyle style,
           if (module_sp) {
             if (Symtab *symtab = module_sp->GetSymtab()) {
               const addr_t file_Addr = GetFileAddress();
-              Symbol *symbol =
+              const Symbol *symbol =
                   symtab->FindSymbolContainingFileAddress(file_Addr);
               if (symbol) {
                 const char *symbol_name = symbol->GetName().AsCString();
@@ -748,7 +748,7 @@ bool Address::Dump(Stream *s, ExecutionContextScope *exe_scope, DumpStyle style,
               DumpAddressRange(s->AsRawOstream(), range->GetRangeBase(),
                                range->GetRangeEnd(), addr_size);
             s->PutCString(", location = ");
-            var_sp->DumpLocations(s, all_ranges ? LLDB_INVALID_ADDRESS : *this);
+            var_sp->DumpLocations(s, all_ranges ? Address() : *this);
             s->PutCString(", decl = ");
             var_sp->GetDeclaration().DumpStopContext(s, false);
             s->EOL();
